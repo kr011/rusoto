@@ -218,6 +218,21 @@ pub struct Dimension {
     pub value: String,
 }
 
+/// <p>MeasureValue represents the data attribute of the time series. For example, the CPU utilization of an EC2 instance or the RPM of a wind turbine are measures. MeasureValue has both name and value </p>
+#[derive(Clone, Debug, Default, PartialEq, Serialize)]
+#[cfg_attr(feature = "deserialize_structs", derive(Deserialize))]
+pub struct MeasureValue {
+    /// <p>The name of the MeasureValue.</p>
+    #[serde(rename = "Name")]
+    pub name: String,
+    /// <p> Dimension represents the meta data attributes of the time series. For example, the name and availability zone of an EC2 instance or the name of the manufacturer of a wind turbine are dimensions. </p> <p>For constraints on Dimension names, see <a href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming">Naming Constraints</a>.</p>
+    #[serde(rename = "Type")]
+    pub value_type: String,
+    /// <p>The value of the dimension.</p>
+    #[serde(rename = "Value")]
+    pub value: String,
+}
+
 /// <p>Represents an available endpoint against which to make API calls agaisnt, as well as the TTL for that endpoint.</p>
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[cfg_attr(any(test, feature = "serialize_structs"), derive(Serialize))]
@@ -319,6 +334,10 @@ pub struct Record {
     #[serde(rename = "MeasureValue")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub measure_value: Option<String>,
+    /// <p> Contains the list of MeasureValue for time-series data points. </p>
+    #[serde(rename = "MeasureValues")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub measure_values: Option<Vec<MeasureValue>>,
     /// <p> Contains the data type of the measure value for the time series data point. </p>
     #[serde(rename = "MeasureValueType")]
     #[serde(skip_serializing_if = "Option::is_none")]
